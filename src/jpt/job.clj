@@ -24,7 +24,9 @@
 (defn get-jobs
   "Removes all expired jobs from db and returns new list"
   []
-  (swap! job-db unexpired-jobs job-expire-period-seconds))
+  (map
+   #(dissoc % :updated-at)
+   (swap! job-db unexpired-jobs job-expire-period-seconds)))
 
 (defn add-new-job
   "Adds new job to db with 0 progress and returns new jobs map"
